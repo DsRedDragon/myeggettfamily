@@ -1,0 +1,260 @@
+
+<div id="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2>{{currentState}} Article</h2>
+                    <button class="btn btn-primary" (click)="titleModal.show()"><i class="fa fa-pencil-square-o"></i>&nbsp;Edit Title</button>
+                    <button class="btn btn-primary" (click)="contentModal.show()"><i class="fa fa-pencil-square-o"></i>&nbsp;Edit Content</button>
+                    <button class="btn btn-primary" (click)="imageModal.show()"><i class="fa fa-pencil-square-o"></i>&nbsp;Add Images/Videos</button>
+                    <button [disabled]="imageService.images !== null && imageService.images.length < 1" class="btn btn-primary" (click)="captionModal.show()"><i class="fa fa-pencil-square-o"></i>&nbsp;Edit Images/Videos</button>
+                    <button *ngIf="(user && user.isAdmin)" class="btn btn-primary" (click)="dateModal.show()"><i class="fa fa-pencil-square-o"></i>&nbsp;Change Date</button>
+                    <button *ngIf="!article.visible && (user && user.isAdmin)" class="btn btn-primary" (click)="toggleVisibility()"><i class="fa fa-pencil-square-o"></i>&nbsp;Make Visible</button>
+                    <button *ngIf="article.visible && (user && user.isAdmin)" class="btn btn-primary" (click)="toggleVisibility()"><i class="fa fa-pencil-square-o"></i>&nbsp;Make Hidden</button>
+                    <button *ngIf="!article.archived && (user && user.isAdmin)" class="btn btn-primary" (click)="toggleArchived()"><i class="fa fa-pencil-square-o"></i>&nbsp;Archive</button>
+                    <button *ngIf="article.archived && (user && user.isAdmin)" class="btn btn-primary" (click)="toggleArchived()"><i class="fa fa-pencil-square-o"></i>&nbsp;Un-Archive</button>
+                    <button class="btn btn-success" [disabled]="!form.form.valid" (click)="form.ngSubmit.emit()"><span class="glyphicon glyphicon-save"></span> Save Changes</button>
+                    <button *ngIf="article.visible && !article.isNew && (user && user.isAdmin)" class="btn btn-primary" (click)="sendNotification()"><i class="fa fa-bullhorn"></i>&nbsp;Notify Users of Change</button>
+                </div>
+                <div class="panel-body">
+                    <form #form="ngForm" (ngSubmit)="saveProfile(form.value); form.reset()" enctype="multipart/form-data">
+
+                        <input type="hidden" name="title" [(ngModel)]="article.title" required />
+                        <input type="hidden" name="articleContent" [(ngModel)]="article.articleContent" required />
+                        <input type="hidden" name="visible" [(ngModel)]="article.visible" />
+                        <input type="hidden" name="archived" [(ngModel)]="article.archived" />
+                        <input type="hidden" name="images" [(ngModel)]="imageService.files" />
+                        <input type="hidden" name="imageDetails" [(ngModel)]="imageService.images" />
+                        <input type="hidden" name="albumId" [(ngModel)]="albumId" />
+                        <input type="hidden" name="imagesToDelete" [(ngModel)]="imagestoDelete" />
+                        <input type="hidden" name="applicationUserId" [(ngModel)]="article.applicationUserId" />
+                        <input type="hidden" name="isNew" [(ngModel)]="article.isNew" />
+
+                        <div *ngIf="article.title === undefined || article.title === ''" class="alert alert-danger">Title Required</div>
+                        <h1>{{ article.title }}</h1>
+                        <h6 class="text-primary">
+                            - Posted By: {{ article.authorName }} on {{ article.postedDT | formatDate: 'MM/DD/YYYY': !isNew }}
+                        </h6>
+                        <div *ngIf="article.articleContent === undefined || article.articleContent === ''" class="alert alert-danger">Content Required</div>
+                        <div [innerHTML]="article.articleContent"></div>
+                        <div class="row">&nbsp;</div>
+                        <div class="row" *ngIf="imageService.images !== null && imageService.images.length > 0">
+
+                            <carousel [interval]="5000" [noWrap]="false">
+                                <slide *ngFor="let image of imageService.images" [active]="image.isActive">
+
+                                    <div *ngIf="!image.isVideo">
+                                        <img [src]="imageService.sanitize(image.imageUrl)" class="fluid center-block" height="400">
+                                    </div>
+                                    <div *ngIf="image.isVideo">
+                                        <video-player [image]="image"></video-player>
+                                    </div>
+                                    <div class="carousel-caption alert" style="bottom: -60px">
+                                        <p>{{image.captionText}}</p>
+                                    </div>
+                                    <div class="alert">
+                                        <p>&nbsp;</p>
+                                    </div>
+                                </slide>
+                            </carousel>
+                        </div>
+                        <div class="row">&nbsp;</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            &nbsp;
+        </div>
+    </div>
+</div>
+
+<div bsModal #loginModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" (onHide)="dismissLoginModal()" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" (click)="loginModal.hide()">
+                    <span aria-hidden="true" class="text-primary">&times;</span>
+                </button>
+                <h4 class="modal-title">Error</h4>
+            </div>
+            <div class="modal-body">
+                You must be logged in and be an administrator to access this page.
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #articleModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" (onHide)="dismissModal()" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" (click)="articleModal.hide()">
+                    <span aria-hidden="true" class="text-primary">&times;</span>
+                </button>
+                <h4 class="modal-title">Changes Saved Successfully</h4>
+            </div>
+            <div class="modal-body">
+                Changes to article have been saved successfully. Video uploads may take several minutes to process on facebook, and become active on the article.
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #savingModal="bs-modal" class="modal fade" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Saving Changes</h4>
+            </div>
+            <div class="modal-body">
+                Changes are being saved. Please wait for the save process to complete.
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #titleModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" (click)="titleModal.hide()">
+                    <span aria-hidden="true" class="text-primary">&times;</span>
+                </button>
+                <h4 class="modal-title">Edit Title</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" [(ngModel)]="article.title" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #dateModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" (click)="dateModal.hide()">
+                    <span aria-hidden="true" class="text-primary">&times;</span>
+                </button>
+                <h4 class="modal-title">Change Posted Date</h4>
+            </div>
+            <div class="modal-body" style="margin: 0px -6px;">
+                <datepicker [(ngModel)]="article.postedDT" [maxDate]="maxDate" [showWeeks]="false"></datepicker>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #contentModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" (click)="contentModal.hide()">
+                    <span aria-hidden="true" class="text-primary">&times;</span>
+                </button>
+                <h4 class="modal-title">Edit Content</h4>
+            </div>
+            <div class="modal-body">
+                <p-editor [(ngModel)]="article.articleContent" [style]="{'height':'320px'}"></p-editor>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #imageModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" (click)="imageModal.hide()">
+                    <span aria-hidden="true" class="text-primary">&times;</span>
+                </button>
+                <h4 class="modal-title">Add Images</h4>
+            </div>
+            <div class="modal-body">
+                <p-growl [value]="imageService.msgs"></p-growl>
+
+                <p-fileUpload name="demo[]" url="/image/onUpload" (onUpload)="imageService.onUpload($event, article.articleId)"
+                              multiple="multiple" accept="image/*,video/*" maxFileSize="100000000">
+                    <template let-file pTemplate="file">
+                        <div class="row">
+                            <div class="col-xs-4" *ngIf="!file.type.includes('video')">
+                                <img [src]="imageService.sanitize(file.objectURL.changingThisBreaksApplicationSecurity)" height="75">
+                            </div>
+                            <div class="col-xs-4" *ngIf="file.type.includes('video')">
+                                <img src="/css/video-player.jpg" height="75">
+                            </div>
+                            <div class="col-xs-4">
+                                {{file.size}} bytes
+                            </div>
+                            <div class="col-xs-3">
+                                Caption:<br /> <input type="text" [(ngModel)]="file.captionText" />
+                            </div>
+                        </div>
+                        <br />
+                    </template> 
+                    <template pTemplate type="content">
+                        <p *ngIf="imageService.files !== undefined && imageService.files.length">Uploaded and Ready to Submit:</p>
+                        <div *ngIf="imageService.files !== undefined && imageService.files.length" style="max-height: 400px; overflow-y: auto">
+                            <div *ngFor="let file of imageService.files" style="width: 98%">
+                                <div class="row">
+                                    <div class="col-xs-4" *ngIf="!file.type.includes('video')">
+                                        <img [src]="imageService.sanitize(file.objectURL.changingThisBreaksApplicationSecurity)" height="75">
+                                    </div>
+                                    <div class="col-xs-4" *ngIf="file.type.includes('video')">
+                                        <img src="/css/video-player.jpg" height="75">
+                                    </div>
+                                    <div class="col-xs-4">
+                                        {{file.size}} bytes
+                                    </div>
+                                    <div class="col-xs-3">
+                                        Caption:<br/> <input type="text" [(ngModel)]="file.captionText"/>
+                                    </div>
+                                </div>
+                                <br/>
+                            </div>
+                        </div>
+                    </template>
+                </p-fileUpload>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #captionModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" (click)="captionModal.hide()">
+                    <span aria-hidden="true" class="text-primary">&times;</span>
+                </button>
+                <h4 class="modal-title">Edit Images</h4>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="imageService.images !== undefined && imageService.images.length" style="max-height: 400px; overflow-y: auto">
+                    <div *ngFor="let image of imageService.images" style="width: 98%">
+                        <div class="row">
+                            <div class="col-xs-4" *ngIf="!image.isVideo">
+                                <img [src]="imageService.sanitize(image.imageUrl)" height="75">
+                            </div>
+                            <div class="col-xs-4" *ngIf="image.isVideo && image.thumbnailUrl !== undefined && !image.thumbnailUrl.includes('blob')">
+                                <img [src]="imageService.sanitize(image.thumbnailUrl)" height="75">
+                            </div>
+                            <div class="col-xs-4" *ngIf="image.isVideo && image.thumbnailUrl !== undefined && image.thumbnailUrl.includes('blob')">
+                                <img src="/css/video-player.jpg" height="75">
+                            </div>
+                            <div class="col-xs-5">
+                                Caption: <input type="text" [(ngModel)]="image.captionText" />
+                            </div>
+                            <div class="col-xs-2">
+                                <button class="btn btn-danger" (click)="deleteImage(image)"><i class="fa fa-lg fa-ban"></i> Delete</button>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

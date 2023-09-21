@@ -3,3 +3,6 @@
 ################################################################################
 
 /.vs
+/src/Domain.Data/obj
+/src/Domain.Model/obj
+/src/MyEggettFamily/obj

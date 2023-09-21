@@ -1,0 +1,85 @@
+
+<div class="panel">
+    <div id="wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="row">&nbsp;</div>
+                <div class="panel panel-default">
+
+                    <div class="panel-body">
+                        <form #form="ngForm" (ngSubmit)="saveProfile(form.value);">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h4>Header Image:</h4> <button type="button" class="btn btn-primary" (click)="imageModal.show()"><i class="fa fa-pencil-square-o"></i>&nbsp;Update Image</button>
+
+                                    <input type="hidden" name="image" [(ngModel)]="imageService.header"/>
+                                    <input type="hidden" name="headerId" [(ngModel)]="headerSetting.settingId" />
+                                    <input type="hidden" name="codeId" [(ngModel)]="codeSetting.settingId" />
+                                </div>
+                                <div class="col-sm-9">
+                                    <div *ngIf="imageService.imageUrl === ''">
+                                        <img src="{{headerSetting.settingValue}}" height="200" />
+                                    </div>
+                                    <div *ngIf="imageService.imageUrl !== ''">
+                                        <img [src]="imageService.sanitize(imageService.imageUrl)" height="200"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">&nbsp;</div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h4>Code:</h4>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input class="form-control" type="text" name="code" [(ngModel)]="codeSetting.settingValue" />
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" type="submit">
+                                <span class="glyphicon glyphicon-save"></span> Save Changes
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                &nbsp;
+            </div>
+        </div>
+    </div>
+
+    <div bsModal #profileModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="profileModal.hide()">
+                        <span aria-hidden="true" class="text-primary">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Changes Saved Successfully</h4>
+                </div>
+                <div class="modal-body">
+                    Changes to the settings have been saved successfully.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div bsModal #imageModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="imageModal.hide()">
+                        <span aria-hidden="true" class="text-primary">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Update Image</h4>
+                </div>
+                <div class="modal-body">
+                    <p-growl [value]="imageService.headerMsgs"></p-growl>
+
+                    <p-fileUpload name="demo[]" url="~/upload" (onUpload)="imageService.onHeaderUpload($event)"
+                                   accept="image/*" auto="auto" maxFileSize="4000000">
+                    </p-fileUpload>
+                </div>
+            </div>
+        </div>
+    </div>

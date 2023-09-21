@@ -1,0 +1,65 @@
+
+<div id="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2>Directory</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="row" *ngIf="userService.userList?.length < 1">
+                        <loading-indicator></loading-indicator>
+                    </div>
+                    <table *ngIf="userService.userList?.length > 0" class="table table-striped table-fixed">
+                        <thead>
+                            <tr>
+                                <th class="col-xs-2 border-right">
+                                    <h5>Name</h5>
+                                </th>
+                                <th class="col-xs-3 border-right">
+                                    <h5>Email Address</h5>
+                                </th>
+                                <th class="col-xs-2 border-right">
+                                    <h5>Cell Phone</h5>
+                                </th>
+                                <th class="col-xs-2 border-right">
+                                    <h5>Home Phone</h5>
+                                </th>
+                                <th class="col-xs-2 border-right">
+                                    <h5>City</h5>
+                                </th>
+                                <th class="col-xs-1 text-center border-right">
+                                    <h5>Details</h5>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of users">
+                                <td class="col-xs-2 border-right">
+                                    {{user.firstName}} {{user.lastName}}&nbsp;
+                                </td>
+                                <td class="col-xs-3 border-right">
+                                    {{user.emailAddress}}&nbsp;
+                                </td>
+                                <td class="col-xs-2 border-right">
+                                    {{user.applicationUserDetail?.cellPhone | phone}}&nbsp;
+                                </td>
+                                <td class="col-xs-2 border-right">
+                                    {{user.applicationUserDetail?.homePhone | phone}}&nbsp;
+                                </td>
+                                <td class="col-xs-2 border-right">
+                                    {{user.applicationUserDetail?.city}}&nbsp;
+                                </td>
+                                <td class="col-xs-1 text-center border-right">
+                                    <a [routerLink]="['/profile/' + user.applicationUserId]">
+                                        <span class='fa fa-th-list'></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

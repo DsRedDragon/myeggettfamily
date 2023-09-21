@@ -1,0 +1,127 @@
+
+<div class="panel">
+
+    <div id="wrapper">
+        <div class="container-fluid">
+            <div class="row">&nbsp;</div>
+            <div class="row">
+                <div class="row" *ngIf="users.length < 1">
+                    <loading-indicator></loading-indicator>
+                </div>
+                <div class="panel panel-default">
+                    <table *ngIf="users.length > 0" class="table table-striped table-fixed">
+                        <thead>
+                            <tr>
+                                <th class="col-xs-2 border-right">
+                                    <h5>Name</h5>
+                                </th>
+                                <th class="col-xs-3 border-right">
+                                    <h5>Email Address</h5>
+                                </th>
+                                <th class="col-xs-2 border-right">
+                                    <h5>Username</h5>
+                                </th>
+                                <th class="col-xs-2 border-right">
+                                    <h5>Last Logged In</h5>
+                                </th>
+                                <th class="col-xs-1 text-center border-right">
+                                    <h5>Admin</h5>
+                                </th>
+                                <th class="col-xs-1 text-center border-right">
+                                    <h5>Sys Admin</h5>
+                                </th>
+                                <th class="col-xs-1 text-center">
+                                    <h5>Notify?</h5>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of users">
+                                <td class="col-xs-2 border-right">
+                                    {{user.firstName}} {{user.lastName}}
+                                </td>
+                                <td class="col-xs-3 border-right">
+                                    {{user.emailAddress}}
+                                </td>
+                                <td class="col-xs-2 border-right">
+                                    {{user.username}}
+                                </td>
+                                <td class="col-xs-2 border-right">
+                                    {{user.lastLoggedInDt | date: 'MM/dd/yyyy hh:mm a' }}
+                                </td>
+                                <td class="col-xs-1 text-center border-right" tooltip="{{user !== undefined && user.isAdmin | yesNo: 'admin' }}" placement="top" *ngIf="myUser.isSystemAdmin">
+                                    <a *ngIf="user !== undefined && user.isAdmin" role="button"
+                                       mwlConfirmationPopover
+                                       [title]="approveTitle"
+                                       [message]="approveMessage"
+                                       [confirmText]="confirmText"
+                                       [cancelText]="cancelText"
+                                       [placement]="placement"
+                                       (confirm)="unApproveUser(user)"
+                                       confirmButtonType="danger"
+                                       cancelButtonType="default"
+                                       [appendToBody]="true">
+                                        <i class="fa fa-lg fa-rebel"></i>
+                                    </a>
+                                    <a *ngIf="user !== undefined && !user.isAdmin" role="button"
+                                       mwlConfirmationPopover
+                                       [title]="unApproveTitle"
+                                       [message]="unApproveMessage"
+                                       [confirmText]="confirmText"
+                                       [cancelText]="cancelText"
+                                       [placement]="placement"
+                                       (confirm)="approveUser(user)"
+                                       confirmButtonType="danger"
+                                       cancelButtonType="default"
+                                       [appendToBody]="true">
+                                        <i class="fa fa-lg fa-empire"></i>
+                                    </a>
+                                </td>
+                                <td class="col-xs-1 text-center border-right" *ngIf="!myUser.isSystemAdmin" tooltip="{{user !== undefined && user.isAdmin | yesNo: 'admin' }}" placement="top">
+                                    <span *ngIf="user !== undefined && user.isAdmin"><i class="fa fa-lg fa-rebel"></i></span>
+                                    <span *ngIf="user !== undefined && !user.isAdmin"><i class="fa fa-lg fa-empire"></i></span>
+                                </td>
+                                <td class="col-xs-1 text-center border-right" *ngIf="!myUser.isSystemAdmin" tooltip="{{user !== undefined && user.isSystemAdmin | yesNo: 'sysAdmin' }}" placement="top">
+                                    <span *ngIf="user !== undefined && user.isSystemAdmin"><i class="fa fa-lg fa-rebel"></i></span>
+                                    <span *ngIf="user !== undefined && !user.isSystemAdmin"><i class="fa fa-lg fa-empire"></i></span>
+                                </td>
+                                <td class="col-xs-1 text-center border-right" tooltip="{{user !== undefined && user.isSystemAdmin | yesNo: 'sysAdmin' }}" placement="top" *ngIf="myUser.isSystemAdmin">
+                                    <a *ngIf="user.isSystemAdmin" role="button"
+                                       mwlConfirmationPopover
+                                       [title]="approveSysTitle"
+                                       [message]="approveSysMessage"
+                                       [confirmText]="confirmText"
+                                       [cancelText]="cancelText"
+                                       [placement]="placement"
+                                       (confirm)="unApproveSysUser(user)"
+                                       confirmButtonType="danger"
+                                       cancelButtonType="default"
+                                       [appendToBody]="true">
+                                        <i class="fa fa-lg fa-rebel"></i>
+                                    </a>
+                                    <a *ngIf="!user.isSystemAdmin" role="button"
+                                       mwlConfirmationPopover
+                                       [title]="unApproveSysTitle"
+                                       [message]="unApproveSysMessage"
+                                       [confirmText]="confirmText"
+                                       [cancelText]="cancelText"
+                                       [placement]="placement"
+                                       (confirm)="approveSysUser(user)"
+                                       confirmButtonType="danger"
+                                       cancelButtonType="default"
+                                       [appendToBody]="true">
+                                        <i class="fa fa-lg fa-empire"></i>
+                                    </a>
+                                </td>
+                                <td class="col-xs-1 text-center" tooltip="{{user.receiveNotifications | yesNo: 'notification' }}" placement="top">
+                                    <span *ngIf="user.receiveNotifications"><i class="fa fa-lg fa-rebel"></i></span>
+                                    <span *ngIf="!user.receiveNotifications"><i class="fa fa-lg fa-empire"></i></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

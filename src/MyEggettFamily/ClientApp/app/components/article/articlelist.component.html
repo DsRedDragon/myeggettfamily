@@ -1,0 +1,12 @@
+    
+<div class="col-sm-12">
+    <div class="row" *ngIf="articles.length < 1">
+        <loading-indicator></loading-indicator>
+    </div>
+    <div class="row" *ngIf="articles.length > 0">
+        <div class="row" *ngFor="let article of articles">
+            <article-item [article]="article"></article-item>
+            <hr />
+        </div>
+    </div>
+</div>

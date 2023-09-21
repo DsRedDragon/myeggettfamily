@@ -1,0 +1,74 @@
+﻿<div class="row">
+    <div class="col-sm-12">
+        <h5 class="text-primary">
+            Comments:
+        </h5>
+    </div>
+</div>
+<div class="row" *ngIf="comments.length < 1" style="margin-left: 10px">
+    <div class="col-sm-12">
+        <h6>
+            No Comments have been posted yet
+        </h6>
+    </div>
+</div>
+<div *ngIf="comments.length > 0" style="max-height: 300px; overflow: auto; border: 1px solid #121416">
+    <div class="col-sm-12" *ngFor="let comment of comments">
+        <h6>
+            Posted By: {{ comment.applicationUser.firstName }} {{comment.applicationUser.lastName}} on {{ comment.commentDt | formatDate: 'MM/DD/YYYY hh:mm A' }}
+        </h6>
+        <div style="margin-left: 10px">
+            {{comment.commentText}}
+        </div>
+        <hr />
+    </div>
+</div>
+<div class="row">&nbsp;</div>
+<div class="col-sm-12">
+    Leave a Comment:
+</div>
+
+<form #form="ngForm" (ngSubmit)="saveComment(form.value); form.reset()">
+    <div class="col-sm-12 form-group">
+        <textarea [disabled]="!isLoggedIn" placeholder="{{comment.message}}" name="message" ngModel required cols="50" rows="3" style="width: 100%"></textarea>
+    </div>
+    <div class="col-sm-12 form-group">
+        <div class="col-sm-2">
+            <button class="btn btn-primary" [disabled]="!isLoggedIn" type="submit">
+                <span class="glyphicon glyphicon-save"></span> Submit
+            </button>
+        </div>
+    </div>
+</form>
+
+<div bsModal #commentNoAdminModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" (click)="commentNoAdminModal.hide()">
+                    <span aria-hidden="true" class="text-primary">&times;</span>
+                </button>
+                <h4 class="modal-title">Comment Submitted</h4>
+            </div>
+            <div class="modal-body">
+                Your Comment has been submitted. After it has been approved it will show up on this post.
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #commentModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" (click)="commentModal.hide()">
+                    <span aria-hidden="true" class="text-primary">&times;</span>
+                </button>
+                <h4 class="modal-title">Comment Submitted</h4>
+            </div>
+            <div class="modal-body">
+                Your Comment has been submitted. It should show on the article now.
+            </div>
+        </div>
+    </div>
+</div>

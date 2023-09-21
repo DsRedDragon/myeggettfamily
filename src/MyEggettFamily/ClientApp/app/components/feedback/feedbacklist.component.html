@@ -1,0 +1,139 @@
+
+<div class="panel">
+
+    <div id="wrapper">
+        <div class="container-fluid">
+            <div class="row">&nbsp;</div>
+            <div class="row">
+                <div class="row" *ngIf="suggestions.length < 1 && !suggestionLoaded">
+                    <loading-indicator></loading-indicator>
+                </div>
+                <div class="row" *ngIf="suggestions.length < 1 && suggestionLoaded">
+                    <div class="col-xs-12">
+                        There is no feedback
+                        <br /><br />
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <table *ngIf="suggestions.length > 0" class="table table-striped table-fixed">
+                        <thead>
+                            <tr>
+                                <th class="col-xs-1 text-center border-right">
+                                    <h5>Status</h5>
+                                </th>
+                                <th class="col-xs-3 border-right" *ngIf="admin">
+                                    <h5>Feedback</h5>
+                                </th>
+                                <th class="col-xs-4 border-right" *ngIf="!admin">
+                                    <h5>Feedback</h5>
+                                </th>
+                                <th class="col-xs-2 border-right">
+                                    <h5>Feedback By</h5>
+                                </th>
+                                <th class="col-xs-2 border-right">
+                                    <h5>Feedback Date</h5>
+                                </th>
+                                <th class="col-xs-2 border-right">
+                                    <h5>Resolution Date</h5>
+                                </th>
+                                <th class="col-xs-1 text-center border-right">
+                                    <h5>Type</h5>
+                                </th>
+                                <th class="col-xs-1 text-center border-right" *ngIf="admin">
+                                    <h5>Delete</h5>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let suggestion of suggestions">
+                                <td class="col-xs-1 text-center border-right" tooltip="{{suggestion.statusName}}" placement="top">
+                                    <a *ngIf="suggestion.statusId === 5 && admin" role="button"
+                                       mwlConfirmationPopover
+                                       [title]="progressTitle"
+                                       [message]="progressMessage"
+                                       [confirmText]="confirmText"
+                                       [cancelText]="cancelText"
+                                       [placement]="placement"
+                                       (confirm)="markInProgress(suggestion)"
+                                       confirmButtonType="danger"
+                                       cancelButtonType="default"
+                                       [appendToBody]="true">
+                                        <i class="fa fa-lg fa-battery-empty"></i>
+                                    </a>
+                                    <span *ngIf="suggestion.statusId === 5 && !admin"><i class="fa fa-lg fa-battery-empty"></i></span>
+                                    <span *ngIf="suggestion.statusId === 6 && !admin"><i class="fa fa-lg fa-battery-half"></i></span>
+                                    <a *ngIf="suggestion.statusId === 6 && admin" role="button"
+                                       mwlConfirmationPopover
+                                       [title]="completeTitle"
+                                       [message]="completeMessage"
+                                       [confirmText]="confirmText"
+                                       [cancelText]="cancelText"
+                                       [placement]="placement"
+                                       (confirm)="markComplete(suggestion)"
+                                       confirmButtonType="danger"
+                                       cancelButtonType="default"
+                                       [appendToBody]="true">
+                                        <i class="fa fa-lg fa-battery-half"></i>
+                                    </a>
+                                    <span *ngIf="suggestion.statusId === 8"><i class="fa fa-lg fa-battery-full"></i></span>
+                                </td>
+                                <td class="col-xs-3 border-right" *ngIf="admin" tooltip="{{suggestion.value}}" placement="top" style="overflow: hidden; white-space:nowrap;">
+                                    {{suggestion.value}}
+                                </td>
+                                <td class="col-xs-4 border-right" *ngIf="!admin" tooltip="{{suggestion.value}}" placement="top" style="overflow: hidden; white-space:nowrap;">
+                                    {{suggestion.value}}
+                                </td>
+                                <td class="col-xs-2 border-right" tooltip="{{suggestion.authorName}}" placement="top" style="overflow: hidden">
+                                    {{suggestion.authorName}}
+                                </td>
+                                <td class="col-xs-2 border-right" tooltip="{{suggestion.createdDT | formatDate: 'MM/DD/YYYY hh:mm A'}}" placement="top">
+                                    {{suggestion.createdDT | formatDate: 'MM/DD/YYYY hh:mm A'}}
+                                </td>
+                                <td *ngIf="suggestion.resolutionDT === undefined" class="col-xs-2 border-right">
+                                    &nbsp;
+                                </td>
+                                <td *ngIf="suggestion.resolutionDT !== undefined" class="col-xs-2 border-right" tooltip="{{suggestion.resolutionDT | formatDate: 'MM/DD/YYYY hh:mm A'}}" placement="top">
+                                    {{suggestion.resolutionDT | formatDate: 'MM/DD/YYYY hh:mm A'}}
+                                </td>
+                                <td class="col-xs-1 border-right" tooltip="{{suggestion.typeName}}" placement="top">
+                                    {{suggestion.typeName}}
+                                </td>
+                                <td class="col-xs-1 text-center border-right" *ngIf="admin">
+                                    <a role="button" title="Delete"
+                                       mwlConfirmationPopover
+                                       [title]="title"
+                                       [message]="message"
+                                       [confirmText]="confirmText"
+                                       [cancelText]="cancelText"
+                                       [placement]="placement"
+                                       (confirm)="confirmClicked(suggestion)"
+                                       confirmButtonType="danger"
+                                       cancelButtonType="default"
+                                       [appendToBody]="true">
+                                        <i class="fa fa-lg fa-ban"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #deleteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" (click)="deleteModal.hide()">
+                    <span aria-hidden="true" class="text-primary">&times;</span>
+                </button>
+                <h4 class="modal-title">Feedback Deleted</h4>
+            </div>
+            <div class="modal-body">
+                Feedback has been deleted successfully.
+            </div>
+        </div>
+    </div>
+</div>

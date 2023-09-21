@@ -1,0 +1,1 @@
+{"version":3,"file":"loading-indicator.js","sourceRoot":"","sources":["loading-indicator.ts"],"names":[],"mappings":";;;;;;;;AAAA,sCAA0C;AAM1C,IAAa,gBAAgB;IAA7B;IAAgC,CAAC;IAAD,uBAAC;AAAD,CAAC,AAAjC,IAAiC;AAApB,gBAAgB;IAJ5B,gBAAS,CAAC;QACP,QAAQ,EAAE,mBAAmB;QAC7B,QAAQ,EAAE,OAAO,CAAC,0BAA0B,CAAC;KAChD,CAAC;GACW,gBAAgB,CAAI;AAApB,4CAAgB"}

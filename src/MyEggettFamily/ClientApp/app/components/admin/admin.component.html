@@ -1,0 +1,25 @@
+
+<div id="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2>Admin</h2>
+                </div>
+                <div class="panel-body">
+                    <tabset>
+                        <tab heading="Articles"><article-admin-list [activeOnly]="true"></article-admin-list></tab>
+                        <tab heading="Archived Articles"><article-admin-list [activeOnly]="false"></article-admin-list></tab>
+                        <tab heading="Users"><user-list></user-list></tab>
+                        <tab heading="Comments"><comment-admin-list></comment-admin-list></tab>
+                        <tab *ngIf="userService.user.isSystemAdmin" heading="Feedback"><feedback-list [admin]="true"></feedback-list></tab>
+                        <tab *ngIf="userService.user.isSystemAdmin" heading="Settings"><setting></setting></tab>
+                    </tabset>
+                </div>
+                <div class="row">
+                    &nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

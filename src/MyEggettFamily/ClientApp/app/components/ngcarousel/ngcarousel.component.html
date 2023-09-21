@@ -1,0 +1,22 @@
+﻿<div class="row" *ngIf="imagesLoaded == false">
+    <loading-indicator></loading-indicator>
+</div>
+<div class="row" *ngIf="imageService.images.length > 0">
+    <carousel [interval]="5000" [noWrap]="false">
+        <slide *ngFor="let image of imageService.images" [active]="image.isActive">
+            
+            <div *ngIf="!image.isVideo">
+                <img [src]="imageService.sanitize(image.imageUrl)" class="fluid center-block" height="400">    
+            </div>
+            <div *ngIf="image.isVideo">
+                <video-player [image]="image"></video-player>
+            </div>
+            <div class="carousel-caption alert" style="bottom: -60px">
+                <p>{{image.captionText}}</p>
+            </div>
+            <div class="alert">
+                <p>&nbsp;</p>
+            </div>
+        </slide>
+    </carousel>
+</div>

@@ -1,0 +1,69 @@
+
+<div id="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2>Feedback</h2>
+                </div>
+                <div class="panel-body" *ngIf="userService.isLoggedIn">
+                    <form #form="ngForm" (ngSubmit)="saveFeedback(form.value); form.reset()">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h4>Name:</h4>
+                            </div>
+                            <div *ngIf="userService.user !== undefined" class="col-sm-9">
+                                <h4>{{userService.user.firstName}} {{userService.user.lastName}}</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h4>Type:</h4>
+                            </div>
+                            <div class="col-sm-2">
+                                <select [(ngModel)]="suggestion.typeId" name="typeId" class="form-control" required>
+                                    <option *ngFor="let type of types" value="{{type.value}}">
+                                        {{type.label}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h4>Feedback:</h4>
+                            </div>
+                            <div class="col-sm-5">
+                                <h4><input type="text" name="feedback" [(ngModel)]="suggestion.value" class="form-control" required /></h4>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" type="submit">
+                            <span class="fa fa-lg fa-save"></span> Submit Feedback
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            &nbsp;
+        </div>
+        <div class="row" *ngIf="userService.isLoggedIn">
+            <feedback-list [admin]="false"></feedback-list>
+        </div>
+    </div>
+</div>
+
+<div bsModal #feedbackModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" (onHide)="dismissModal()" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" (click)="feedbackModal.hide()">
+                    <span aria-hidden="true" class="text-primary">&times;</span>
+                </button>
+                <h4 class="modal-title">Feedback Submitted</h4>
+            </div>
+            <div class="modal-body">
+                Your feedback has been submitted. Thank you for your feedback.
+            </div>
+        </div>
+    </div>
+</div>

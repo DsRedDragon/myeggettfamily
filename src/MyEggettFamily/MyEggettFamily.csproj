@@ -1,0 +1,84 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <AssemblyName>MyEggettFamily</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>MyEggettFamily</PackageId>
+    <UserSecretsId>aspnet-HalesAngels-e2307b7c-ce13-4ecc-8623-7b64d95208e8</UserSecretsId>
+    <RuntimeFrameworkVersion>1.0.4</RuntimeFrameworkVersion>
+    <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\css\themes\images\images\**" />
+    <Content Remove="wwwroot\css\themes\images\images\**" />
+    <EmbeddedResource Remove="wwwroot\css\themes\images\images\**" />
+    <None Remove="wwwroot\css\themes\images\images\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="wwwroot\css\themeCruze.css" />
+    <Content Include="wwwroot\css\themes\HopeboxTheme.css" />
+    <Content Include="wwwroot\css\themes\images\ui-bg_flat_30_cccccc_40x100.png" />
+    <Content Include="wwwroot\css\themes\images\ui-bg_flat_50_575757_40x100.png" />
+    <Content Include="wwwroot\css\themes\images\ui-bg_flat_50_5c5c5c_40x100.png" />
+    <Content Include="wwwroot\css\themes\images\ui-bg_glass_20_3d3d3d_1x400.png" />
+    <Content Include="wwwroot\css\themes\images\ui-bg_glass_20_474747_1x400.png" />
+    <Content Include="wwwroot\css\themes\images\ui-bg_glass_40_0099e0_1x400.png" />
+    <Content Include="wwwroot\css\themes\images\ui-bg_glass_40_ffc73d_1x400.png" />
+    <Content Include="wwwroot\css\themes\images\ui-bg_gloss-wave_25_333333_500x100.png" />
+    <Content Include="wwwroot\css\themes\images\ui-bg_highlight-soft_80_eeeeee_1x100.png" />
+    <Content Include="wwwroot\css\themes\images\ui-icons_0099e0_256x240.png" />
+    <Content Include="wwwroot\css\themes\images\ui-icons_a83300_256x240.png" />
+    <Content Include="wwwroot\css\themes\images\ui-icons_eeeeee_256x240.png" />
+    <Content Include="wwwroot\css\themes\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="wwwroot\css\themes\themeCruze.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ClientApp\dist\**\*;node_modules\**\*;Views\**\*;wwwroot\**\*">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain.Model\Domain.Model.csproj" />
+    <ProjectReference Include="..\Domain.Data\Domain.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.AngularServices" Version="1.0.0-*" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="1.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="1.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="1.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="1.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="1.0.2" />
+    <PackageReference Include="fbsdk.TypeScript.DefinitelyTyped" Version="0.6.0" />
+    <PackageReference Include="MailKit" Version="1.10.1" />
+  </ItemGroup>
+
+  <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
+    <Exec Command="npm install" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js --env.prod" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js --env.prod" />
+  </Target>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.0" />
+  </ItemGroup>
+
+</Project>

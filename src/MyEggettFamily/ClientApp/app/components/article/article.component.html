@@ -1,0 +1,14 @@
+
+<a [routerLink]="['/view/' + article.articleId]">
+    <h1>{{ article.title }}</h1>
+</a>
+<h6 class="text-primary">
+    - Posted By: {{ article.authorName }} on {{ article.postedDT | formatDate: 'MM/DD/YYYY' }}
+</h6>
+<div [innerHTML]="article.articleContent"></div>
+<div class="row">&nbsp;</div>
+<ng-carousel [id]="article.articleId"></ng-carousel>
+<div class="row">&nbsp;</div>
+<div class="row">
+    <comment-list [id]="article.articleId" ></comment-list>
+</div>

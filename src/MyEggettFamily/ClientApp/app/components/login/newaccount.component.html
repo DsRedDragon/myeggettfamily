@@ -1,0 +1,363 @@
+
+<div id="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2>New Account</h2>
+                </div>
+                <div class="panel-body">
+                    <form #form="ngForm" (ngSubmit)="saveProfile(form.value); form.reset()">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-10"></div>
+                            <div class="col=sm-2">
+                                <a class="btn btn-warning" [routerLink]="['/home']">
+                                    <span class="glyphicon glyphicon-remove"></span> Cancel
+                                </a>
+                                <button class="btn btn-primary" type="submit">
+                                    <span class="glyphicon glyphicon-floppy-disk"></span> Submit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <br /><br />
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4>Code:</h4>
+                            </div>
+                            <div class="col-sm-6">
+                                <input class="form-control" name="code" type="text" [(ngModel)]="code" required />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4>First Name:</h4>
+                            </div>
+                            <div class="col-sm-6">
+                                <input class="form-control" name="firstName" type="text" [(ngModel)]="user.firstName" required />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4>Middle Name:</h4>
+                            </div>
+                            <div class="col-sm-6">
+                                <input  class="form-control" name="middleName" type="text" [(ngModel)]="user.applicationUserDetail.middleName" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4>Last Name:</h4>
+                            </div>
+                            <div class="col-sm-6">
+                                <input  class="form-control" name="lastName" type="text" [(ngModel)]="user.lastName" required />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4>Birthday:</h4>
+                            </div>
+                            <div class="col-sm-6">
+                                <p-calendar  
+                                            [showIcon]="true" 
+                                            name="birthday" 
+                                            [(ngModel)]="user.applicationUserDetail.birthday" 
+                                            yearRange="1900:2200" 
+                                            [maxDate]="maxDate"
+                                            hourFormat="12"
+                                            >
+                                </p-calendar>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4>Cell Phone #:</h4>
+                            </div>
+                            <div class="col-sm-6">
+                                <input  class="form-control" name="cellPhone" type="number" [(ngModel)]="user.applicationUserDetail.cellPhone" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4>Home Phone #:</h4>
+                            </div>
+                            <div class="col-sm-6">
+                                <input  class="form-control" name="homePhone" type="number" [(ngModel)]="user.applicationUserDetail.homePhone" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4>Email:</h4>
+                            </div>
+                            <div class="col-sm-6">
+                                <input  class="form-control" name="emailAddress" type="text" [(ngModel)]="user.emailAddress" required />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4>Street Address:</h4>
+                            </div>
+                            <div class="col-sm-6">
+                                <input  class="form-control" name="streetAddress" type="text" [(ngModel)]="user.applicationUserDetail.streetAddress" required />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4>City:</h4>
+                            </div>
+                            <div class="col-sm-6">
+                                <input  class="form-control" name="city" type="text" [(ngModel)]="user.applicationUserDetail.city" required />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4>State:</h4>
+                            </div>
+                            <div class="col-sm-6">
+                                <select  [(ngModel)]="user.applicationUserDetail.stateId" name="stateId" class="form-control" required>
+                                    <option *ngFor="let state of states" value="{{state.stateId}}">
+                                        {{state.stateName}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4>Zip Code:</h4>
+                            </div>
+                            <div class="col-sm-6">
+                                <input  class="form-control" name="zipCode" type="number" [(ngModel)]="user.applicationUserDetail.zipCode" required />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4>Spouse First Name:</h4>
+                            </div>
+                            <div class="col-sm-6">
+                                <input  class="form-control" name="spouseFirstName" type="text" [(ngModel)]="user.applicationUserDetail.spouseFirstName" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4>Spouse Middle Name:</h4>
+                            </div>
+                            <div class="col-sm-6">
+                                <input  class="form-control" name="spouseMiddleName" type="text" [(ngModel)]="user.applicationUserDetail.spouseMiddleName" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4>Spouse Last Name:</h4>
+                            </div>
+                            <div class="col-sm-6">
+                                <input  class="form-control" name="spouseLastName" type="text" [(ngModel)]="user.applicationUserDetail.spouseLastName" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4>Spouse Birthday:</h4>
+                            </div>
+                            <div class="col-sm-6">
+                                <p-calendar 
+                                            [showIcon]="true"
+                                            name="spouseBirthday"
+                                            [(ngModel)]="user.applicationUserDetail.spouseBirthday"
+                                            yearRange="1900:2200"
+                                            [maxDate]="maxDate"
+                                            hourFormat="12">
+                                </p-calendar>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4>Spouse Cell Phone #:</h4>
+                            </div>
+                            <div class="col-sm-6">
+                                <input  class="form-control" name="spouseCellPhone" type="number" [(ngModel)]="user.applicationUserDetail.spouseCellPhone" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <h4>Username:</h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input  class="form-control" name="username" type="text" [(ngModel)]="user.username" (blur)="checkUsername(user.username, user.applicationUserId)" required />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <h4>Password:</h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input class="form-control" name="password" type="password" [(ngModel)]="user.password" required />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <h4>Secret Question:</h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input  class="form-control" name="secretQuestion" type="text" [(ngModel)]="user.secretQuestion" required />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <h4>Secret Answer:</h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input  class="form-control" name="secretAnswer" type="text" [(ngModel)]="user.secretAnswer" required />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <h4>Receive Notifications:</h4>
+                                </div>
+                                <div class="col-sm-1">
+                                    <input  class="form-control" name="receiveNotifications" type="checkbox" [(ngModel)]="user.receiveNotifications" />
+                                </div>
+                            </div>
+                        </div>
+                        <h4>Household Picture:</h4>
+
+                        <p-fileUpload  name="demo[]" url="~/upload" (onUpload)="onHeaderUpload($event)"
+                                      accept="image/*" auto="auto" maxFileSize="4000000">
+                        </p-fileUpload>
+                        <div style="max-height: 505px; max-width: 505px">
+                            <img [src]="imageService.sanitize(imageUrl)" style="max-height:500px; max-width: 500px" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-10">
+                                <h4>Children:</h4>
+                            </div>
+                            <div class="col-sm-1 text-right">
+                                <button  class="btn btn-primary" (click)="addChild()" type="button">
+                                    <span class="glyphicon glyphicon-plus"></span> Add Child
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-sm-12"><br /></div>
+                        <div class="col-sm-12">
+                            <table class="table table-striped table-fixed">
+                                <thead>
+                                    <tr class="col-sm-12">
+                                        <th class="col-xs-3 border-right">
+                                            <h5>First Name</h5>
+                                        </th>
+                                        <th class="col-xs-2 border-right">
+                                            <h5>Middle Name</h5>
+                                        </th>
+                                        <th class="col-xs-3 border-right">
+                                            <h5>Last Name</h5>
+                                        </th>
+                                        <th class="col-xs-3 border-right">
+                                            <h5>Birthday</h5>
+                                        </th>
+                                        <th class="col-xs-1 border-right text-center">
+                                            <h5 >Delete</h5>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="col-sm-12" *ngFor="let child of user.appChild; let idx = index">
+                                        <td class="col-xs-3 border-right">
+                                            <input  class="form-control" name="childFirstName{{idx}}" type="text" [(ngModel)]="child.firstName" />
+                                        </td>
+                                        <td class="col-xs-2 border-right">
+                                            <input  class="form-control" name="childMiddleName{{idx}}" type="text" [(ngModel)]="child.middleName" />
+                                        </td>
+                                        <td class="col-xs-3 border-right">
+                                            <input  class="form-control" name="childLastName{{idx}}" type="text" [(ngModel)]="child.lastName" />
+                                        </td>
+                                        <td class="col-xs-3 border-right">
+                                            <p-calendar  [showIcon]="true"
+                                                        name="childBirthday{{idx}}"
+                                                        [(ngModel)]="child.birthday"
+                                                        yearRange="1900:2200"
+                                                        [maxDate]="maxDate"
+                                                        hourFormat="12">
+                                            </p-calendar>
+                                        </td>
+                                        <td class="col-xs-1 border-right text-center">
+                                            <a  role="button"
+                                               mwlConfirmationPopover
+                                               title="Delete Child"
+                                               message="Are you sure you want to delete this child from the list?"
+                                               confirmText="Yes"
+                                               cancelText="No"
+                                               placement="top"
+                                               (confirm)="confirmClicked(child)"
+                                               confirmButtonType="danger"
+                                               cancelButtonType="default"
+                                               [appendToBody]="true">
+                                                <i class="fa fa-lg fa-ban"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            &nbsp;
+        </div>
+    </div>
+</div>
+
+<div bsModal #profileModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" (onHide)="dismissModal()" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" (click)="profileModal.hide()">
+                    <span aria-hidden="true" class="text-primary">&times;</span>
+                </button>
+                <h4 class="modal-title">Changes Saved Successfully</h4>
+            </div>
+            <div class="modal-body">
+                Account Created Successfully.
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #failModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" (click)="failModal.hide()">
+                    <span aria-hidden="true" class="text-primary">&times;</span>
+                </button>
+                <h4 class="modal-title">Error</h4>
+            </div>
+            <div class="modal-body">
+                Code does not match. Please try again.
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #usernameModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" (click)="usernameModal.hide()">
+                    <span aria-hidden="true" class="text-primary">&times;</span>
+                </button>
+                <h4 class="modal-title">Username Already Taken</h4>
+            </div>
+            <div class="modal-body">
+                This username is already taken by another user. Please use a different one.
+            </div>
+        </div>
+    </div>
+</div>

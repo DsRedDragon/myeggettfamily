@@ -1,0 +1,87 @@
+
+<div id="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2>Login</h2>
+                </div>
+                <div class="panel-body">
+                    <form #form="ngForm" (ngSubmit)="login(form.value); form.reset()">
+                       
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h4>Username:</h4>
+                            </div>
+                            <div class="col-sm-5">
+                                <h4><input type="text" name="username" [(ngModel)]="loginInfo.username" class="form-control" required /></h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h4>Password:</h4>
+                            </div>
+                            <div class="col-sm-5">
+                                <h4><input type="password" name="password" [(ngModel)]="loginInfo.password" class="form-control" required /></h4>
+                            </div>
+                            <div class="col-sm-2">
+                                <h4>
+                                    <button class="btn btn-primary" type="submit">
+                                        <span class="fa fa-lg fa-key"></span> Login
+                                    </button>
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                &nbsp;
+                            </div>
+                            <div class="col-sm-3">
+                                <a [routerLink]="['/forgot']">
+                                    <span class="fa fa-lg fa-question-circle"></span> I Forgot My Password
+                                </a>
+                            </div>
+                            <div class="col-sm-2">
+                                <a [routerLink]="['/newaccount']">
+                                    <span class="fa fa-lg fa-plus-circle"></span> Create Account
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" (onHide)="dismissModal()" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" (click)="successModal.hide()">
+                    <span aria-hidden="true" class="text-primary">&times;</span>
+                </button>
+                <h4 class="modal-title">Success</h4>
+            </div>
+            <div class="modal-body">
+                You have been logged in successfully.
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #failureModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" (click)="failureModal.hide()">
+                    <span aria-hidden="true" class="text-primary">&times;</span>
+                </button>
+                <h4 class="modal-title">Error</h4>
+            </div>
+            <div class="modal-body">
+                Username/Password combination does not match our records. Please try again.
+            </div>
+        </div>
+    </div>
+</div>

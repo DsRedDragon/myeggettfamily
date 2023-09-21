@@ -1,0 +1,19 @@
+
+<div class="panel panel-default">
+    <div class="panel-heading">Archives</div>
+    <div class="panel-body">
+        <div class="row" *ngIf="archives.length < 1 && !loaded">
+            <loading-indicator></loading-indicator>
+        </div>
+        <div *ngIf="loaded && archives.length < 1">
+            There are no archives
+        </div>
+        <div class="row" *ngIf="archives.length > 0">
+            <div class="row" style="margin-left: 10px" *ngFor="let archive of archives">
+                <a [routerLink]="['/archives', { date: archive.monthStart, title: archive.archiveName } ]">
+                    {{archive.archiveName}}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

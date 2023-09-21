@@ -1,0 +1,27 @@
+﻿<vg-player style="width: 50%; height: 400px" class="fluid center-block">
+    <vg-overlay-play></vg-overlay-play>
+    <vg-buffering></vg-buffering>
+
+    <vg-scrub-bar>
+        <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+        <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+    </vg-scrub-bar>
+
+    <vg-controls>
+        <vg-play-pause></vg-play-pause>
+        <vg-playback-button></vg-playback-button>
+
+        <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+
+        <vg-scrub-bar style="pointer-events: none;"></vg-scrub-bar>
+
+        <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
+        <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+
+        <vg-mute></vg-mute>
+    </vg-controls>
+
+    <video vgMedia #media id="singleVideo" preload="auto" crossorigin class="fluid center-block">
+        <source *ngFor="let video of sources" [src]="imageService.sanitize(video.imageUrl)" type="video/mp4">
+    </video>
+</vg-player>
